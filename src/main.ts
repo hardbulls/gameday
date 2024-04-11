@@ -2,9 +2,11 @@ import "./main.css";
 import BullPng from "./assets/bull.png";
 import Font_NeueAaachen from "./assets/NeueAachenBlack.woff2";
 import Font_AccidentalPresidency from "./assets/AccidentalPresidency.woff2";
+import Font_Steelfish from "./assets/steelfish.woff2";
 import { GamesRepository } from "./games-repository.ts";
 import { Game } from "./model/game.ts";
 import { convertFileToBase64 } from "./file-to-base64.ts";
+import { drawRoundedLeftSquare, drawRoundedRightSquare } from "./draw.ts";
 
 const BULLS_COLOR = "#e20613";
 
@@ -14,6 +16,10 @@ async function loadFonts() {
     {
       name: "Accidental Presidency",
       data: Font_AccidentalPresidency,
+    },
+    {
+      name: "Steelfish",
+      data: Font_Steelfish,
     },
   ]) {
     const fontFace = new FontFace(
@@ -149,7 +155,11 @@ async function drawImage(
   });
 }
 
-async function renderCanvas(canvas: HTMLCanvasElement, options: DrawOptions) {
+async function renderCanvas(
+  outputImage: HTMLImageElement,
+  canvas: HTMLCanvasElement,
+  options: DrawOptions,
+): Promise<HTMLImageElement> {
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   canvas.width = 900;
@@ -201,21 +211,37 @@ async function renderCanvas(canvas: HTMLCanvasElement, options: DrawOptions) {
 
   for (const [index, game] of Object.entries(options.games)) {
     const row = Number.parseInt(index);
-    const spacing = row > 0 ? 15 * row : 0;
+    const spacing = row > 0 ? 18 * row : 0;
     const offsetY = row * 70 + spacing;
-    const offsetX = 30;
+    const offsetX = 24;
+
+    drawRoundedLeftSquare(
+      ctx,
+      offsetX,
+      gamesOffset + offsetY,
+      105,
+      70,
+      20,
+      3,
+      "#ffffff",
+    );
 
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(offsetX, gamesOffset + offsetY, 750, 70);
 
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(offsetX, gamesOffset + offsetY, 104, 70);
+    drawRoundedRightSquare(
+      ctx,
+      offsetX + 105,
+      gamesOffset + offsetY,
+      652,
+      70,
+      20,
+      3,
+      "#ffffff",
+    );
 
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(offsetX, gamesOffset + offsetY, 750, 70);
+    ctx.fill();
 
-    ctx.font = "48px Accidental Presidency";
+    ctx.font = "60px Steelfish";
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "right";
 
@@ -225,7 +251,7 @@ async function renderCanvas(canvas: HTMLCanvasElement, options: DrawOptions) {
         .toString()
         .padStart(2, "0")}`,
       90 + offsetX,
-      gamesOffset + 48 + offsetY,
+      gamesOffset + 60 + offsetY,
     );
 
     ctx.fillStyle = "#000000";
@@ -234,7 +260,7 @@ async function renderCanvas(canvas: HTMLCanvasElement, options: DrawOptions) {
     ctx.fillText(
       `${game.times.join(" | ")}`,
       114 + offsetX,
-      gamesOffset + 48 + offsetY,
+      gamesOffset + 60 + offsetY,
     );
 
     ctx.textAlign = "right";
@@ -242,8 +268,12 @@ async function renderCanvas(canvas: HTMLCanvasElement, options: DrawOptions) {
     const teamsDisplay = `${game.home} vs. ${game.away}${
       game.league ? ` (${game.league.toUpperCase()})` : ""
     }`;
-    ctx.fillText(teamsDisplay, 770, gamesOffset + 48 + offsetY);
+    ctx.fillText(teamsDisplay, 770, gamesOffset + 60 + offsetY);
   }
+
+  outputImage.src = canvas.toDataURL("image/png");
+
+  return outputImage;
 }
 
 function rotateCanvas(ctx: CanvasRenderingContext2D, angle: number) {
@@ -254,54 +284,31 @@ type DrawOptions = {
   background?: string;
   games: Game[];
 };
-//
-// function drawRoundedSquare(x, y, size, cornerRadius, borderColor) {
-//   ctx.strokeStyle = borderColor;
-//   ctx.lineWidth = 2;
-//   ctx.beginPath();
-//   ctx.moveTo(x + cornerRadius, y);
-//   ctx.arcTo(x + size, y, x + size, y + size, cornerRadius);
-//   ctx.arcTo(x + size, y + size, x, y + size, cornerRadius);
-//   ctx.arcTo(x, y + size, x, y, cornerRadius);
-//   ctx.arcTo(x, y, x + size, y, cornerRadius);
-//   ctx.closePath();
-//   ctx.stroke();
-// }
-//
-// // Usage example
-// drawRoundedSquare(50, 50, 100, 20, '#FF0000');
 
 function uploadBackground(
   handleUpload: (file: File | Blob) => void,
 ): HTMLDivElement {
-  // Create a container div
   const container = document.createElement("div") as HTMLDivElement;
 
   container.classList.add("file-input");
 
-  // Create a label
   const label = document.createElement("label");
   label.innerText = "Upload Background";
 
-  // Create a button
   const button = document.createElement("button");
   button.innerText = "Choose File";
 
-  // Create an input field
   const uploadField = document.createElement("input") as HTMLInputElement;
   uploadField.style.display = "none";
   uploadField.hidden = true;
   uploadField.type = "file";
 
-  // Function to trigger click event on the file input field
   const triggerClick = () => {
     uploadField.click();
   };
 
-  // Add event listener to the button
   button.addEventListener("click", triggerClick);
 
-  // Add event listener to the input field
   uploadField.addEventListener("change", () => {
     const file = uploadField.files?.[0];
     if (file) {
@@ -309,12 +316,10 @@ function uploadBackground(
     }
   });
 
-  // Append label, button, and input field to container
   container.appendChild(label);
   container.appendChild(button);
   container.appendChild(uploadField);
 
-  // Return the container
   return container;
 }
 
@@ -323,9 +328,10 @@ function uploadBackground(
 
   const games = await GamesRepository.findWeeklyScheduledHomeGames();
   const canvas = document.createElement("canvas");
+  const outputImage = document.createElement("img");
 
   const uploadField = uploadBackground(async (file) => {
-    await renderCanvas(canvas, {
+    await renderCanvas(outputImage, canvas, {
       background: await convertFileToBase64(file),
       games,
     });
@@ -334,7 +340,7 @@ function uploadBackground(
   const backgroundSelect = await controls(async (background) => {
     canvas.getContext("2d")?.reset();
 
-    await renderCanvas(canvas, {
+    await renderCanvas(outputImage, canvas, {
       background,
       games,
     });
@@ -357,9 +363,9 @@ function uploadBackground(
     uploadField,
   );
 
-  await renderCanvas(canvas, { games });
+  await renderCanvas(outputImage, canvas, { games });
 
-  (document.querySelector("#display") as HTMLDivElement).append(canvas);
+  (document.querySelector("#display") as HTMLDivElement).append(outputImage);
 
   (document.querySelector("#download") as HTMLDivElement).append(
     downloadButton,
