@@ -292,8 +292,14 @@ function uploadBackground(
 
   container.classList.add("file-input");
 
+  const labelDiv = document.createElement("div");
+
+  labelDiv.classList.add("file-input-label");
+
   const label = document.createElement("label");
   label.innerText = "Upload Background";
+
+  labelDiv.append(label);
 
   const button = document.createElement("button");
   button.innerText = "Choose File";
@@ -316,7 +322,7 @@ function uploadBackground(
     }
   });
 
-  container.appendChild(label);
+  container.appendChild(labelDiv);
   container.appendChild(button);
   container.appendChild(uploadField);
 
@@ -350,7 +356,7 @@ function uploadBackground(
     const downloadLink = document.createElement("a");
 
     downloadLink.style.display = "none";
-    downloadLink.href = canvas.toDataURL("image/png");
+    downloadLink.href = outputImage.src;
     downloadLink.download = "ballpark-hard.png";
 
     document.body.appendChild(downloadLink);

@@ -6,6 +6,7 @@ body {
     margin: 0;
     width: 100%;
     font-family: sans-serif;
+    background-color: rgb(196, 196, 196);
 }
 
 #controls {
@@ -24,11 +25,14 @@ body {
     font-size: 2em;
     height: 2em;
 }
-.file-input label {
-    width: 100%;
+
+.file-input-label {
     display: flex;
-    vertical-align: middle;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
     height: 100%;
+
 }
 
 .file-input button {
