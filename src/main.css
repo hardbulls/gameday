@@ -5,6 +5,7 @@ html {
 body {
     margin: 0;
     width: 100%;
+    font-family: sans-serif;
 }
 
 #controls {
@@ -16,14 +17,30 @@ body {
     width: 100%;
 }
 
-#controls input {
+.file-input {
+    display: flex;
+    gap: 16px;
+    width: 100%;
     font-size: 2em;
+    height: 2em;
+}
+.file-input label {
+    width: 100%;
+    display: flex;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.file-input button {
+    width: 100%;
+    font-size: 1em;
 }
 
 #controls select {
     width: 100%;
     text-align: center;
     font-size: 2em;
+    height: 2em;
 }
 
 #controls select option {
@@ -39,7 +56,7 @@ body {
 #download {
     display: flex;
     justify-content: center;
-    height: 64px;
+    height: 4em;
     width: 100%;
 }
 

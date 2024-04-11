@@ -273,20 +273,49 @@ type DrawOptions = {
 
 function uploadBackground(
   handleUpload: (file: File | Blob) => void,
-): HTMLInputElement {
-  const uploadField = document.createElement("input") as HTMLInputElement;
+): HTMLDivElement {
+  // Create a container div
+  const container = document.createElement("div") as HTMLDivElement;
 
+  container.classList.add("file-input");
+
+  // Create a label
+  const label = document.createElement("label");
+  label.innerText = "Upload Background";
+
+  // Create a button
+  const button = document.createElement("button");
+  button.innerText = "Choose File";
+
+  // Create an input field
+  const uploadField = document.createElement("input") as HTMLInputElement;
+  uploadField.style.display = "none";
+  uploadField.hidden = true;
   uploadField.type = "file";
 
+  // Function to trigger click event on the file input field
+  const triggerClick = () => {
+    uploadField.click();
+  };
+
+  // Add event listener to the button
+  button.addEventListener("click", triggerClick);
+
+  // Add event listener to the input field
   uploadField.addEventListener("change", () => {
     const file = uploadField.files?.[0];
-
     if (file) {
       handleUpload(file);
     }
   });
 
-  return uploadField;
+  // Append label, button, and input field to container
+  container.appendChild(label);
+  container.appendChild(button);
+  container.appendChild(uploadField);
+
+  // Return the container
+  return container;
 }
 
 (async () => {
@@ -314,9 +343,13 @@ function uploadBackground(
   const downloadButton = download(() => {
     const downloadLink = document.createElement("a");
 
+    downloadLink.style.display = "none";
     downloadLink.href = canvas.toDataURL();
     downloadLink.download = "ballpark-hard.png";
+
+    document.body.appendChild(downloadLink);
     downloadLink.click();
+    document.body.removeChild(downloadLink);
   });
 
   (document.querySelector("#controls") as HTMLDivElement).append(
