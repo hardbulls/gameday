@@ -1,0 +1,64 @@
+html {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+#controls input {
+    font-size: 2em;
+}
+
+#controls select {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+}
+
+#controls select option {
+    font-size: 1em;
+}
+
+#display {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#download {
+    display: flex;
+    justify-content: center;
+    height: 64px;
+    width: 100%;
+}
+
+#download button {
+    width: 100%;
+    font-size: 2em;
+}
+
+.app {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    margin-top: 16px;
+    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 900px;
+    gap: 16px;
+}
