@@ -1,5 +1,5 @@
 import "./main.css";
-import BullSvg from "./assets/bull.svg";
+import BullPng from "./assets/bull.png";
 import Font_NeueAaachen from "./assets/NeueAachenBlack.woff2";
 import Font_AccidentalPresidency from "./assets/AccidentalPresidency.woff2";
 import { GamesRepository } from "./games-repository.ts";
@@ -174,7 +174,7 @@ async function renderCanvas(canvas: HTMLCanvasElement, options: DrawOptions) {
   ctx.lineWidth = 4;
   ctx.strokeRect(50, 50, 700, 350);
 
-  await drawImage(ctx, BullSvg, -240, -45, 700, 700);
+  await drawImage(ctx, BullPng, -140, 60, 500, 500);
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "96px Neue Aachen";
@@ -344,7 +344,7 @@ function uploadBackground(
     const downloadLink = document.createElement("a");
 
     downloadLink.style.display = "none";
-    downloadLink.href = canvas.toDataURL();
+    downloadLink.href = canvas.toDataURL("image/png");
     downloadLink.download = "ballpark-hard.png";
 
     document.body.appendChild(downloadLink);
