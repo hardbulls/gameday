@@ -1,6 +1,6 @@
 {
   "name": "@hardbulls/gameday",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": false,
   "description": "Generate shareable gameday templates.",
   "main": "dist/main.mjs",
@@ -16,9 +16,9 @@
     "url": "git+https://github.com/hardbulls/gameday.git"
   },
   "keywords": [
-    "baseball",
-    "scoreboard",
+    "hard bulls",
     "bulls",
+    "game day",
     "baseball"
   ],
   "author": "Arjan Frans",

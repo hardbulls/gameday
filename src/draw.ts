@@ -71,3 +71,44 @@ export function drawRoundedRightSquare(
   ctx.closePath();
   ctx.stroke();
 }
+
+export async function drawImage(
+  ctx: CanvasRenderingContext2D,
+  src: string,
+  dx: number,
+  dy: number,
+  width: number,
+  height: number,
+): Promise<void> {
+  const image = new Image();
+
+  image.src = src;
+
+  return new Promise((resolve, reject) => {
+    image.onload = () => {
+      // Specify the target width and height
+      const targetWidth = width; // Change this to your desired width
+      const targetHeight = height; // Change this to your desired height
+
+      // Calculate the scaling factors to cover the specified width and height
+      const scaleX = targetWidth / image.width;
+      const scaleY = targetHeight / image.height;
+
+      // Choose the larger scaling factor to cover both width and height
+      const scale = Math.max(scaleX, scaleY);
+
+      // Calculate the destination width and height based on the scale
+      const dWidth = image.width * scale;
+      const dHeight = image.height * scale;
+
+      // Draw the image with the calculated parameters
+      ctx.drawImage(image, dx, dy, dWidth, dHeight);
+
+      resolve();
+    };
+
+    image.onerror = () => {
+      reject();
+    };
+  });
+}

@@ -6,7 +6,11 @@ import Font_Steelfish from "./assets/steelfish.woff2";
 import { GamesRepository } from "./games-repository.ts";
 import { Game } from "./model/game.ts";
 import { convertFileToBase64 } from "./file-to-base64.ts";
-import { drawRoundedLeftSquare, drawRoundedRightSquare } from "./draw.ts";
+import {
+  drawImage,
+  drawRoundedLeftSquare,
+  drawRoundedRightSquare,
+} from "./draw.ts";
 import { imageToBlob } from "./image-to-blob.ts";
 
 const BULLS_COLOR = "#e20613";
@@ -39,7 +43,7 @@ function getImageUrl(name: string) {
 }
 
 async function controls(
-  handleSelect: (url: string) => void,
+  handleSelect: (url: string) => Promise<void>,
 ): Promise<HTMLSelectElement> {
   const selectBackground = document.createElement("select");
 
@@ -104,10 +108,10 @@ async function controls(
     selectBackground.add(new Option(name, url));
   }
 
-  selectBackground.addEventListener("change", (event) => {
+  selectBackground.addEventListener("change", async (event) => {
     const select = event.target as HTMLSelectElement;
 
-    handleSelect(select.value ? getImageUrl(select.value) : "");
+    await handleSelect(select.value ? getImageUrl(select.value) : "");
   });
 
   return selectBackground;
@@ -118,54 +122,13 @@ function download(handleDownload: () => void): HTMLButtonElement {
 
   downloadButton.textContent = "Download Image";
 
-  downloadButton.addEventListener("click", (event) => {
+  downloadButton.addEventListener("click", async (event) => {
     event.preventDefault();
 
     handleDownload();
   });
 
   return downloadButton;
-}
-
-async function drawImage(
-  ctx: CanvasRenderingContext2D,
-  src: string,
-  dx: number,
-  dy: number,
-  width: number,
-  height: number,
-): Promise<void> {
-  const image = new Image();
-
-  image.src = src;
-
-  return new Promise((resolve, reject) => {
-    image.onload = () => {
-      // Specify the target width and height
-      const targetWidth = width; // Change this to your desired width
-      const targetHeight = height; // Change this to your desired height
-
-      // Calculate the scaling factors to cover the specified width and height
-      const scaleX = targetWidth / image.width;
-      const scaleY = targetHeight / image.height;
-
-      // Choose the larger scaling factor to cover both width and height
-      const scale = Math.max(scaleX, scaleY);
-
-      // Calculate the destination width and height based on the scale
-      const dWidth = image.width * scale;
-      const dHeight = image.height * scale;
-
-      // Draw the image with the calculated parameters
-      ctx.drawImage(image, dx, dy, dWidth, dHeight);
-
-      resolve();
-    };
-
-    image.onerror = () => {
-      reject();
-    };
-  });
 }
 
 async function renderCanvas(
