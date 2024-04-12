@@ -178,7 +178,10 @@ async function renderCanvas(
   canvas.width = 900;
   canvas.height = 1600;
 
-  ctx.reset();
+  if (typeof ctx.reset === "function") {
+    ctx.reset();
+  }
+
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
