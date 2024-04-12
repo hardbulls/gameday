@@ -16,3 +16,7 @@ export function toTimeString(date: Date): string {
 export function isDateBeforeToday(date: Date) {
   return new Date(date.toDateString()) < new Date(new Date().toDateString());
 }
+
+export function isPastDate(date: Date) {
+  return date < new Date();
+}

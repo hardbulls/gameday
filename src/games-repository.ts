@@ -1,5 +1,5 @@
 import { Game } from "./model/game.ts";
-import { isDateBeforeToday, toDateString, toTimeString } from "./date.ts";
+import { isPastDate, toDateString, toTimeString } from "./date.ts";
 
 type ApiGame = {
   venue: string;
@@ -87,7 +87,7 @@ export abstract class GamesRepository {
 
       const gameDate = toDateString(gameDateTime);
       const gameIdentifier = `${apiGame.home}_${apiGame.away}_${apiGame.venue}_${gameDate}`;
-      const isFutureGame = !isDateBeforeToday(gameDateTime);
+      const isFutureGame = !isPastDate(gameDateTime);
 
       if (apiGame.status === "scheduled" && isHomeGame && isFutureGame) {
         const existingGame = result[gameIdentifier] || undefined;

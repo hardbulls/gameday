@@ -7,6 +7,7 @@ body {
     width: 100%;
     font-family: sans-serif;
     background-color: rgb(196, 196, 196);
+    display: flex;
 }
 
 #controls {
@@ -15,7 +16,7 @@ body {
     justify-content: center;
     justify-items: center;
     gap: 16px;
-    width: 100%;
+    margin-inline: 12px;
 }
 
 .file-input {
@@ -67,11 +68,24 @@ body {
 #download button {
     width: 100%;
     font-size: 2em;
+    margin-inline: 12px;
 }
 
 .app {
+    margin: 0 auto;
     display: flex;
     justify-content: center;
+
+    @media (min-width: 981px) {
+        max-width: 900px;
+    }
+
+    width: 100%;
+}
+
+#output-image {
+    width: 100%;
+    height: auto;
 }
 
 .container {
@@ -80,6 +94,5 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 900px;
     gap: 16px;
 }

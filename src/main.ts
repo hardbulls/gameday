@@ -7,6 +7,7 @@ import { GamesRepository } from "./games-repository.ts";
 import { Game } from "./model/game.ts";
 import { convertFileToBase64 } from "./file-to-base64.ts";
 import { drawRoundedLeftSquare, drawRoundedRightSquare } from "./draw.ts";
+import { imageToBlob } from "./image-to-blob.ts";
 
 const BULLS_COLOR = "#e20613";
 
@@ -52,6 +53,10 @@ async function controls(
       url: "bulls_2.png",
     },
     {
+      name: "Bulls Pitcher",
+      url: "bulls_4.png",
+    },
+    {
       name: "Bulls Win",
       url: "bulls_3.png",
     },
@@ -74,6 +79,14 @@ async function controls(
     {
       name: "U10 Win",
       url: "u10_1.png",
+    },
+    {
+      name: "U12 Huddle",
+      url: "u12_1.png",
+    },
+    {
+      name: "U14 Batter",
+      url: "u14_1.png",
     },
     {
       name: "U16 Team",
@@ -165,6 +178,7 @@ async function renderCanvas(
   canvas.width = 900;
   canvas.height = 1600;
 
+  ctx.reset();
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -172,7 +186,7 @@ async function renderCanvas(
     await drawImage(ctx, options.background, 0, 0, 900, 450);
 
     ctx.shadowColor = "#000000";
-    ctx.shadowBlur = 50;
+    ctx.shadowBlur = 30;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 450, canvas.width, canvas.height - 450);
 
@@ -241,34 +255,51 @@ async function renderCanvas(
 
     ctx.fill();
 
-    ctx.font = "60px Steelfish";
+    const gameFontSize = 60;
+
+    ctx.font = `${gameFontSize}px Steelfish`;
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "right";
 
     const date = new Date(game.date);
+
     ctx.fillText(
       `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1)
         .toString()
-        .padStart(2, "0")}`,
-      90 + offsetX,
-      gamesOffset + 60 + offsetY,
+        .padStart(2, "0")}.`,
+      96 + offsetX,
+      gamesOffset + gameFontSize + offsetY,
     );
 
     ctx.fillStyle = "#000000";
     ctx.textAlign = "left";
 
     ctx.fillText(
-      `${game.times.join(" | ")}`,
+      `${game.times[0]}`,
       114 + offsetX,
-      gamesOffset + 60 + offsetY,
+      gamesOffset + gameFontSize + offsetY,
     );
+
+    if (game.times.length > 1) {
+      ctx.fillText(
+        `|`,
+        114 + offsetX + 82,
+        gamesOffset + gameFontSize + offsetY,
+      );
+
+      ctx.fillText(
+        `${game.times[1]}`,
+        114 + offsetX + 100,
+        gamesOffset + gameFontSize + offsetY,
+      );
+    }
 
     ctx.textAlign = "right";
 
     const teamsDisplay = `${game.home} vs. ${game.away}${
       game.league ? ` (${game.league.toUpperCase()})` : ""
     }`;
-    ctx.fillText(teamsDisplay, 770, gamesOffset + 60 + offsetY);
+    ctx.fillText(teamsDisplay, 770, gamesOffset + gameFontSize + offsetY);
   }
 
   outputImage.src = canvas.toDataURL("image/png");
@@ -336,6 +367,8 @@ function uploadBackground(
   const canvas = document.createElement("canvas");
   const outputImage = document.createElement("img");
 
+  outputImage.id = "output-image";
+
   const uploadField = uploadBackground(async (file) => {
     await renderCanvas(outputImage, canvas, {
       background: await convertFileToBase64(file),
@@ -344,10 +377,8 @@ function uploadBackground(
   });
 
   const backgroundSelect = await controls(async (background) => {
-    canvas.getContext("2d")?.reset();
-
     await renderCanvas(outputImage, canvas, {
-      background,
+      background: await convertFileToBase64(await imageToBlob(background)),
       games,
     });
   });
