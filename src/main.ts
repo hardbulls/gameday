@@ -69,6 +69,10 @@ async function controls(
       url: "bandidos_1.png",
     },
     {
+      name: "Bandidos Huddle",
+      url: "bandidos_2.png",
+    },
+    {
       name: "Bandidas Youth Team",
       url: "bandidas_1.png",
     },
@@ -81,7 +85,11 @@ async function controls(
       url: "bullets_1.png",
     },
     {
-      name: "U10 Win",
+      name: "U8 Win",
+      url: "u8_1.png",
+    },
+    {
+      name: "U10 Batter",
       url: "u10_1.png",
     },
     {
@@ -89,7 +97,7 @@ async function controls(
       url: "u12_1.png",
     },
     {
-      name: "U14 Batter",
+      name: "U14 Runner",
       url: "u14_1.png",
     },
     {
