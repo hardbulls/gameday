@@ -86,7 +86,7 @@ export abstract class GamesRepository {
       );
 
       const gameDate = toDateString(gameDateTime);
-      const gameIdentifier = `${apiGame.home}_${apiGame.away}_${apiGame.venue}_${gameDate}`;
+      const gameIdentifier = `${apiGame.league}_${apiGame.home}_${apiGame.away}_${apiGame.venue}_${gameDate}`;
       const isFutureGame = !isPastDate(gameDateTime);
 
       if (apiGame.status === "scheduled" && isHomeGame && isFutureGame) {

@@ -1,3 +1,7 @@
+export function rotateCanvas(ctx: CanvasRenderingContext2D, angle: number) {
+  ctx.rotate((angle * Math.PI) / 180);
+}
+
 export function drawRoundedSquare(
   ctx: CanvasRenderingContext2D,
   x: number,

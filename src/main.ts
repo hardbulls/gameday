@@ -1,8 +1,5 @@
 import "./main.css";
 import BullPng from "./assets/bull.png";
-import Font_NeueAaachen from "./assets/NeueAachenBlack.woff2";
-import Font_AccidentalPresidency from "./assets/AccidentalPresidency.woff2";
-import Font_Steelfish from "./assets/steelfish.woff2";
 import { GamesRepository } from "./games-repository.ts";
 import { Game } from "./model/game.ts";
 import { convertFileToBase64 } from "./file-to-base64.ts";
@@ -12,123 +9,16 @@ import {
   drawRoundedRightSquare,
 } from "./draw.ts";
 import { imageToBlob } from "./image-to-blob.ts";
-
-const BULLS_COLOR = "#e20613";
-
-async function loadFonts() {
-  for (const font of [
-    { name: "Neue Aachen", data: Font_NeueAaachen },
-    {
-      name: "Accidental Presidency",
-      data: Font_AccidentalPresidency,
-    },
-    {
-      name: "Steelfish",
-      data: Font_Steelfish,
-    },
-  ]) {
-    const fontFace = new FontFace(
-      font.name,
-      `url("${font.data}") format("woff2")`,
-    );
-
-    await fontFace.load();
-
-    document.fonts.add(fontFace);
-  }
-}
-
-function getImageUrl(name: string) {
-  return new URL(`./assets/backgrounds/${name}`, import.meta.url).href;
-}
-
-async function controls(
-  handleSelect: (url: string) => Promise<void>,
-): Promise<HTMLSelectElement> {
-  const selectBackground = document.createElement("select");
-
-  const images = [
-    {
-      name: "Bulls Outfielder",
-      url: "bulls_1.png",
-    },
-    {
-      name: "Bulls Battery",
-      url: "bulls_2.png",
-    },
-    {
-      name: "Bulls Pitcher",
-      url: "bulls_4.png",
-    },
-    {
-      name: "Bulls Win",
-      url: "bulls_3.png",
-    },
-    {
-      name: "Bandidos Team",
-      url: "bandidos_1.png",
-    },
-    {
-      name: "Bandidos Huddle",
-      url: "bandidos_2.png",
-    },
-    {
-      name: "Bandidas Youth Team",
-      url: "bandidas_1.png",
-    },
-    {
-      name: "Barons Team",
-      url: "barons_1.png",
-    },
-    {
-      name: "Bullets Team",
-      url: "bullets_1.png",
-    },
-    {
-      name: "U8 Win",
-      url: "u8_1.png",
-    },
-    {
-      name: "U10 Batter",
-      url: "u10_1.png",
-    },
-    {
-      name: "U12 Huddle",
-      url: "u12_1.png",
-    },
-    {
-      name: "U14 Runner",
-      url: "u14_1.png",
-    },
-    {
-      name: "U16 Team",
-      url: "u16_1.png",
-    },
-    {
-      name: "Glove",
-      url: "glove_1.png",
-    },
-  ];
-
-  selectBackground.add(new Option("-- Select Background --", ""));
-
-  for (const { name, url } of images) {
-    selectBackground.add(new Option(name, url));
-  }
-
-  selectBackground.addEventListener("change", async (event) => {
-    const select = event.target as HTMLSelectElement;
-
-    await handleSelect(select.value ? getImageUrl(select.value) : "");
-  });
-
-  return selectBackground;
-}
+import { loadFonts } from "./fonts.ts";
+import { PhotoRepository } from "./photo-repository.ts";
+import { PhotoSelect } from "./photo-select.ts";
+import { BULLS_COLOR } from "./config.ts";
+import { i18n } from "./translations.ts";
 
 function download(handleDownload: () => void): HTMLButtonElement {
   const downloadButton = document.createElement("button") as HTMLButtonElement;
 
-  downloadButton.textContent = "Download Image";
+  downloadButton.textContent = i18n("downloadImage");
 
   downloadButton.addEventListener("click", async (event) => {
     event.preventDefault();
@@ -297,17 +187,8 @@ function uploadBackground(
 
   container.classList.add("file-input");
 
-  const labelDiv = document.createElement("div");
-
-  labelDiv.classList.add("file-input-label");
-
-  const label = document.createElement("label");
-  label.innerText = "Upload Background";
-
-  labelDiv.append(label);
-
   const button = document.createElement("button");
-  button.innerText = "Choose File";
+  button.innerText = i18n("uploadPhoto");
 
   const uploadField = document.createElement("input") as HTMLInputElement;
   uploadField.style.display = "none";
@@ -327,7 +208,6 @@ function uploadBackground(
     }
   });
 
-  container.appendChild(labelDiv);
   container.appendChild(button);
   container.appendChild(uploadField);
 
@@ -350,12 +230,15 @@ function uploadBackground(
     });
   });
 
-  const backgroundSelect = await controls(async (background) => {
-    await renderCanvas(outputImage, canvas, {
-      background: await convertFileToBase64(await imageToBlob(background)),
-      games,
-    });
-  });
+  const backgroundSelect = new PhotoSelect(
+    PhotoRepository.findPhotos(),
+    async (photoUrl) => {
+      await renderCanvas(outputImage, canvas, {
+        background: await convertFileToBase64(await imageToBlob(photoUrl)),
+        games,
+      });
+    },
+  );
 
   const downloadButton = download(() => {
     const downloadLink = document.createElement("a");
