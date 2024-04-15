@@ -11,7 +11,12 @@ export class PhotoSelect extends HTMLElement {
 
     const select = document.createElement("select");
 
-    select.add(new Option(`-- ${i18n("selectPhoto")} --`, ""));
+    const placeholder = new Option(`-- ${i18n("selectPhoto")} --`, "");
+
+    placeholder.disabled = true;
+    placeholder.selected = true;
+
+    select.add(placeholder);
 
     for (const { name, url } of photos) {
       select.add(new Option(name, url));

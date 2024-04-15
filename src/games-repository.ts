@@ -25,9 +25,9 @@ export abstract class GamesRepository {
     u14: "U14",
     u15: "U15",
     u16: "U16",
-    llv: undefined,
-    bbl: undefined,
-    "2-blw": undefined,
+    llv: "llv",
+    bbl: "bbl",
+    "2-blw": "2-blw",
   };
 
   private static NAME_MAPPING: { [key: string]: string } = {
@@ -42,6 +42,7 @@ export abstract class GamesRepository {
     "Hard Bulls U14": "Bulls",
     "Hard Bulls U15": "Bulls",
     "Hard Bulls U16": "Bulls",
+    "Feldkirch Cardinals": "Cardinals",
     "Feldkirch Cardinals U8": "Cardinals",
     "Feldkirch Cardinals U10": "Cardinals",
     "Feldkirch Cardinals U12": "Cardinals",
@@ -98,6 +99,7 @@ export abstract class GamesRepository {
           existingGame.times = existingGame.times.sort();
         } else {
           result[gameIdentifier] = {
+            id: gameIdentifier,
             home: GamesRepository.transformName(apiGame.home),
             away: GamesRepository.transformName(apiGame.away),
             date: gameDate,

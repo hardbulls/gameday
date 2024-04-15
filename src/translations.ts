@@ -7,6 +7,10 @@ const TRANSLATIONS: { [key: string]: { [key: string]: string } } = {
     de: "Spiel",
     en: "Game",
   },
+  selectGame: {
+    de: "Spiel Auswählen",
+    en: "Select Game",
+  },
   selectPhoto: {
     de: "Foto Auswählen",
     en: "Select Photo",

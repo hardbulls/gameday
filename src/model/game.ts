@@ -1,4 +1,5 @@
 export type Game = {
+  id: string;
   home: string;
   away: string;
   date: string;

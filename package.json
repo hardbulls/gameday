@@ -1,6 +1,6 @@
 {
   "name": "@hardbulls/gameday",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "Generate shareable gameday templates.",
   "main": "dist/main.mjs",
