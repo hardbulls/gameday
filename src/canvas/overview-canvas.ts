@@ -13,21 +13,23 @@ async function drawOverviewGames(
   options: DrawOptions,
 ) {
   const gamesOffset = 580;
+  const gameFontSize = 48;
 
   for (const [index, game] of Object.entries(options.games)) {
     const row = Number.parseInt(index);
-    const spacing = row > 0 ? 18 * row : 0;
-    const offsetY = row * 70 + spacing;
-    const offsetX = 24;
+    const boxHeight = gameFontSize * 1.5;
+    const spacing = row > 0 ? 48 * row : 0;
+    const offsetY = row * gameFontSize + spacing;
+    const offsetX = 20;
 
     drawRoundedLeftSquare(
       ctx,
       offsetX,
       gamesOffset + offsetY,
       112,
-      70,
+      boxHeight,
       20,
-      3,
+      4,
       "#ffffff",
     );
 
@@ -38,17 +40,15 @@ async function drawOverviewGames(
       offsetX + 112,
       gamesOffset + offsetY,
       652,
-      70,
+      boxHeight,
       20,
-      3,
+      4,
       "#ffffff",
     );
 
     ctx.fill();
 
-    const gameFontSize = 60;
-
-    ctx.font = `${gameFontSize}px Steelfish`;
+    ctx.font = `${gameFontSize}px DIN Condensed Bold`;
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "right";
 
@@ -59,7 +59,7 @@ async function drawOverviewGames(
         .toString()
         .padStart(2, "0")}.`,
       102 + offsetX,
-      gamesOffset + gameFontSize + offsetY,
+      gamesOffset + gameFontSize + offsetY + 5,
     );
 
     ctx.fillStyle = "#000000";
@@ -68,20 +68,20 @@ async function drawOverviewGames(
     ctx.fillText(
       `${game.times[0]}`,
       117 + offsetX,
-      gamesOffset + gameFontSize + offsetY,
+      gamesOffset + gameFontSize + offsetY + 5,
     );
 
     if (game.times.length > 1) {
       ctx.fillText(
         `|`,
         122 + offsetX + 82,
-        gamesOffset + gameFontSize + offsetY,
+        gamesOffset + gameFontSize + offsetY + 5,
       );
 
       ctx.fillText(
         `${game.times[1]}`,
         119 + offsetX + 100,
-        gamesOffset + gameFontSize + offsetY,
+        gamesOffset + gameFontSize + offsetY + 5,
       );
     }
 
@@ -92,7 +92,7 @@ async function drawOverviewGames(
         ? ` (${game.league.toUpperCase()})`
         : ""
     }`;
-    ctx.fillText(teamsDisplay, 770, gamesOffset + gameFontSize + offsetY);
+    ctx.fillText(teamsDisplay, 770, gamesOffset + gameFontSize + offsetY + 5);
   }
 }
 

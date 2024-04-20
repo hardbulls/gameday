@@ -27,14 +27,14 @@ const TRANSLATIONS: { [key: string]: { [key: string]: string } } = {
 
 export function getLang() {
   if (navigator.languages != undefined) {
-    return navigator.languages[0];
+    return navigator.languages[0].split("-")?.[0];
   }
 
-  return navigator.language;
+  return navigator.language.split("-")?.[0];
 }
 
 const defaultLocale = "en";
-const locale = getLang();
+const locale = getLang() || defaultLocale;
 
 export function i18n(id: string) {
   if (TRANSLATIONS?.[id]?.[locale]) {

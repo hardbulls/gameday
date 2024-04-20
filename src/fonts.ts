@@ -1,17 +1,17 @@
 import Font_NeueAaachen from "./assets/NeueAachenBlack.woff2";
-import Font_AccidentalPresidency from "./assets/AccidentalPresidency.woff2";
-import Font_Steelfish from "./assets/steelfish.woff2";
+import Font_DINCondensed from "./assets/DINCondensed.woff2";
+import Font_DINCondensedBold from "./assets/DINCondensedBold.woff2";
 
 export async function loadFonts() {
   for (const font of [
     { name: "Neue Aachen", data: Font_NeueAaachen },
     {
-      name: "Accidental Presidency",
-      data: Font_AccidentalPresidency,
+      name: "DIN Condensed",
+      data: Font_DINCondensed,
     },
     {
-      name: "Steelfish",
-      data: Font_Steelfish,
+      name: "DIN Condensed Bold",
+      data: Font_DINCondensedBold,
     },
   ]) {
     const fontFace = new FontFace(

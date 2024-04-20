@@ -19,6 +19,27 @@ export function drawRoundedSquare(
   ctx.closePath();
   ctx.stroke();
 }
+
+export function drawSquare(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  borderWidth: number,
+  borderColor: string,
+) {
+  ctx.strokeStyle = borderColor;
+  ctx.lineWidth = borderWidth;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + width, y);
+  ctx.lineTo(x + width, y + height);
+  ctx.lineTo(x, y + height);
+  ctx.closePath();
+  ctx.stroke();
+}
+
 export function drawRoundedLeftSquare(
   ctx: CanvasRenderingContext2D,
   x: number,
