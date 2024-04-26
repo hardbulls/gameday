@@ -5,6 +5,8 @@ import {
   rotateCanvas,
 } from "../draw.ts";
 import BullPng from "../assets/bull.png";
+import HomePlateOvarlay from "../assets/overlay/home_plate_overlay.png";
+import BlackGradientOvarlay from "../assets/overlay/black_gradient_overlay.png";
 import { BULLS_COLOR } from "../config.ts";
 import { DrawOptions } from "../model/DrawOptions.ts";
 
@@ -26,7 +28,7 @@ async function drawOverviewGames(
       ctx,
       offsetX,
       gamesOffset + offsetY,
-      112,
+      116,
       boxHeight,
       20,
       4,
@@ -37,7 +39,7 @@ async function drawOverviewGames(
 
     drawRoundedRightSquare(
       ctx,
-      offsetX + 112,
+      offsetX + 116,
       gamesOffset + offsetY,
       652,
       boxHeight,
@@ -58,7 +60,7 @@ async function drawOverviewGames(
       `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.`,
-      102 + offsetX,
+      106 + offsetX,
       gamesOffset + gameFontSize + offsetY + 5,
     );
 
@@ -67,20 +69,22 @@ async function drawOverviewGames(
 
     ctx.fillText(
       `${game.times[0]}`,
-      117 + offsetX,
+      120 + offsetX,
       gamesOffset + gameFontSize + offsetY + 5,
     );
 
     if (game.times.length > 1) {
+      ctx.font = `${gameFontSize}px DIN Condensed`;
       ctx.fillText(
         `|`,
         122 + offsetX + 82,
         gamesOffset + gameFontSize + offsetY + 5,
       );
+      ctx.font = `${gameFontSize}px DIN Condensed Bold`;
 
       ctx.fillText(
         `${game.times[1]}`,
-        119 + offsetX + 100,
+        120 + offsetX + 100,
         gamesOffset + gameFontSize + offsetY + 5,
       );
     }
@@ -113,13 +117,27 @@ export async function renderCanvas(
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = "source-over";
+
   if (options.background) {
     await drawImage(ctx, options.background, 0, 0, 900, 450);
+
+    ctx.globalCompositeOperation = "source-over";
+
+    await drawImage(ctx, HomePlateOvarlay, 0, 450, 900, 900);
+    await drawImage(ctx, BlackGradientOvarlay, 0, 450, 900, 900);
+
+    ctx.globalAlpha = 0.4;
+    ctx.globalCompositeOperation = "overlay";
 
     ctx.shadowColor = "#000000";
     ctx.shadowBlur = 30;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 450, canvas.width, canvas.height - 450);
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
 
     ctx.shadowBlur = 0;
     ctx.shadowColor = "rgba(0,0,0,0)";

@@ -22,6 +22,10 @@ export abstract class PhotoRepository {
       url: "bulls_3.png",
     },
     {
+      name: "Bulls Batter",
+      url: "bulls_5.png",
+    },
+    {
       name: "Bandidos Team",
       url: "bandidos_1.png",
     },
@@ -38,8 +42,16 @@ export abstract class PhotoRepository {
       url: "barons_1.png",
     },
     {
-      name: "Bullets Team",
+      name: "Bullets Team (1)",
       url: "bullets_1.png",
+    },
+    {
+      name: "Bullets Team (2)",
+      url: "bullets_2.png",
+    },
+    {
+      name: "Bulls Family",
+      url: "family_1.png",
     },
     {
       name: "U8 Win",
