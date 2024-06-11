@@ -41,6 +41,14 @@ body {
     font-size: 1em;
 }
 
+
+#controls input {
+    width: 100%;
+    font-size: 2em;
+    height: 2em;
+    text-align: center;
+}
+
 #controls select {
     width: 100%;
     text-align: center;

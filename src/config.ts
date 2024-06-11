@@ -1,1 +1,1 @@
-export const BULLS_COLOR = "#e20613";
+export const BULLS_COLOR = "#ed1c24";

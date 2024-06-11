@@ -1,7 +1,12 @@
-import { drawRoundedLeftSquare, drawRoundedRightSquare } from "../draw.ts";
+import {
+  drawImage,
+  drawRoundedLeftSquare,
+  drawRoundedRightSquare,
+} from "../draw.ts";
 import { DrawOptions } from "../model/DrawOptions.ts";
+import { TeamRepository } from "../repository/team-repository.ts";
 
-export async function drawOverviewGames(
+export async function drawGame(
   ctx: CanvasRenderingContext2D,
   options: DrawOptions,
 ) {
@@ -14,12 +19,13 @@ export async function drawOverviewGames(
     const spacing = row > 0 ? 48 * row : 0;
     const offsetY = row * gameFontSize + spacing;
     const offsetX = 20;
+    const timeOffsetX = (game.times.length - 1) * 120;
 
     drawRoundedLeftSquare(
       ctx,
       offsetX,
       gamesOffset + offsetY,
-      116,
+      126 + timeOffsetX,
       boxHeight,
       20,
       4,
@@ -30,9 +36,9 @@ export async function drawOverviewGames(
 
     drawRoundedRightSquare(
       ctx,
-      offsetX + 116,
+      offsetX + 126 + timeOffsetX,
       gamesOffset + offsetY,
-      652,
+      622 - timeOffsetX,
       boxHeight,
       20,
       4,
@@ -45,48 +51,71 @@ export async function drawOverviewGames(
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "right";
 
-    const date = new Date(game.date);
-
     ctx.fillText(
-      `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}.`,
+      `${game.times[0]}`,
       106 + offsetX,
       gamesOffset + gameFontSize + offsetY + 5,
     );
 
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#ffffff";
     ctx.textAlign = "left";
-
-    ctx.fillText(
-      `${game.times[0]}`,
-      120 + offsetX,
-      gamesOffset + gameFontSize + offsetY + 5,
-    );
 
     if (game.times.length > 1) {
       ctx.font = `${gameFontSize}px DIN Condensed`;
       ctx.fillText(
         `|`,
-        122 + offsetX + 82,
+        122 + offsetX,
         gamesOffset + gameFontSize + offsetY + 5,
       );
       ctx.font = `${gameFontSize}px DIN Condensed Bold`;
 
       ctx.fillText(
         `${game.times[1]}`,
-        120 + offsetX + 100,
+        122 + offsetX + 26,
         gamesOffset + gameFontSize + offsetY + 5,
       );
     }
 
-    ctx.textAlign = "right";
+    ctx.fillStyle = "#000000";
+    ctx.textAlign = "left";
 
     const teamsDisplay = `${game.home} vs. ${game.away}${
       game.league && !options.hiddenLeagues.includes(game.league)
         ? ` (${game.league.toUpperCase()})`
         : ""
     }`;
-    ctx.fillText(teamsDisplay, 770, gamesOffset + gameFontSize + offsetY + 5);
+
+    ctx.fillText(teamsDisplay, 320, gamesOffset + gameFontSize + offsetY + 5);
+
+    ctx.textAlign = "right";
+
+    const homeTeam = TeamRepository.findTeam(game.home);
+    const awayTeam = TeamRepository.findTeam(game.away);
+
+    const logoOffsetY = gamesOffset + offsetY + 130;
+    const logoOffsetX = 200;
+    const logoSize = 150;
+
+    ctx.font = "82px Neue Aachen";
+    ctx.fillStyle = "rgba(255,255,255,0.6)";
+    ctx.fillText("vs", logoOffsetX + logoSize * 2, logoOffsetY + 100);
+    ctx.fillStyle = "#000000";
+
+    await drawImage(
+      ctx,
+      homeTeam.logo,
+      logoOffsetX,
+      logoOffsetY,
+      logoSize,
+      logoSize,
+    );
+    await drawImage(
+      ctx,
+      awayTeam.logo,
+      logoOffsetX + logoSize + 150,
+      logoOffsetY,
+      logoSize,
+      logoSize,
+    );
   }
 }

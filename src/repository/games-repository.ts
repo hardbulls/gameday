@@ -1,5 +1,5 @@
-import { Game } from "./model/game.ts";
-import { isPastDate, toDateString, toTimeString } from "./date.ts";
+import { Game } from "../model/game.ts";
+import { isPastDate, toDateString, toTimeString } from "../date.ts";
 
 type ApiGame = {
   venue: string;

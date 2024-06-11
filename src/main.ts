@@ -1,14 +1,16 @@
 import "./main.css";
-import { GamesRepository } from "./games-repository.ts";
+import { GamesRepository } from "./repository/games-repository.ts";
 import { Game } from "./model/game.ts";
 import { convertFileToBase64 } from "./file-to-base64.ts";
 import { imageToBlob } from "./image-to-blob.ts";
 import { loadFonts } from "./fonts.ts";
-import { PhotoRepository } from "./photo-repository.ts";
+import { PhotoRepository } from "./repository/photo-repository.ts";
 import { PhotoSelect } from "./photo-select.ts";
 import { i18n } from "./translations.ts";
 import { GameSelect } from "./game-select.ts";
-import { renderCanvas } from "./canvas/overview-canvas.ts";
+import { TextInput } from "./text-input.ts";
+import { renderCanvas } from "./canvas/render.ts";
+import { RenderType } from "./model/RenderType.ts";
 
 function download(handleDownload: () => void): HTMLButtonElement {
   const downloadButton = document.createElement("button") as HTMLButtonElement;
@@ -62,12 +64,8 @@ type State = {
   type: RenderType;
   game?: Game;
   background?: string;
+  title?: string;
 };
-
-enum RenderType {
-  Overview = "overview",
-  Game = "game",
-}
 
 (async () => {
   await loadFonts();
@@ -83,18 +81,27 @@ enum RenderType {
     type: RenderType.Overview,
     game: undefined,
     background: undefined,
+    title: "Game Day",
   };
 
   async function render() {
     await renderCanvas(outputImage, canvas, {
       hiddenLeagues: ["llv", "bbl", "2-blw"],
+      title: state.title || "",
       background:
         state.background &&
         (await convertFileToBase64(await imageToBlob(state.background))),
       games:
         state.type === RenderType.Game && state.game ? [state.game] : games,
+      type: state.type,
     });
   }
+
+  const textInput = new TextInput(state.title || "", async (value) => {
+    state.title = value;
+
+    await render();
+  });
 
   const uploadField = uploadBackground(async (file) => {
     state.background = await convertFileToBase64(file);
@@ -135,6 +142,7 @@ enum RenderType {
   (document.querySelector("#controls") as HTMLDivElement).append(
     gameSelect,
     backgroundSelect,
+    textInput,
     uploadField,
   );
 

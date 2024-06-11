@@ -20,3 +20,18 @@ export function isDateBeforeToday(date: Date) {
 export function isPastDate(date: Date) {
   return date < new Date();
 }
+
+export function convertToGermanDateFormat(dateString: string): string {
+  // Ensure the input is in the expected US format YYYY-MM-DD
+  const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+  if (!datePattern.test(dateString)) {
+    return dateString;
+  }
+
+  // Split the date string into components
+  const [year, month, day] = dateString.split("-");
+
+  // Construct the German date format DD.MM.YYYY
+  return `${day}.${month}.${year}`;
+}

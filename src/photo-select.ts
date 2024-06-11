@@ -1,4 +1,4 @@
-import { Photo } from "./photo-repository.ts";
+import { Photo } from "./repository/photo-repository.ts";
 import { i18n } from "./translations.ts";
 
 function getImageUrl(name: string) {
@@ -26,7 +26,7 @@ export class PhotoSelect extends HTMLElement {
       handleSelect(select.value ? getImageUrl(select.value) : "");
     });
 
-    return select;
+    this.appendChild(select);
   }
 }
 
