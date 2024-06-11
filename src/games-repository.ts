@@ -68,10 +68,11 @@ export abstract class GamesRepository {
     "ASAK Athletics": "Athletics",
     "Dirty Sox Graz": "Dirty Sox",
     "Kufstein Vikings": "Vikings",
+    "Kufstein Vikings U14": "Vikings",
     "Schwaz Tigers": "Tigers",
     "Feldkirch Angry Balls": "Angy Balls",
     "Centurions Wels": "Centurions",
-    "SG Indians - Vikings U16": "Indians/Vikings",
+    "SG Indians - Vikings U16": "Ind./Vik.",
   };
 
   public static async findWeeklyScheduledHomeGames(): Promise<Game[]> {
