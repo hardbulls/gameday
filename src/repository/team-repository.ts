@@ -3,6 +3,8 @@ import Logo_bb from "../assets/teams/logo_bb.png";
 import Logo_centurions from "../assets/teams/logo_centurions.png";
 import Logo_cu from "../assets/teams/logo_cu.png";
 import Logo_dd from "../assets/teams/logo_dd.png";
+import Logo_hb_di from "../assets/teams/logo_hb+di.png";
+import Logo_di_kv from "../assets/teams/logo_di+kv.png";
 import Logo_di from "../assets/teams/logo_di.png";
 import Logo_dirty_sox from "../assets/teams/logo_dirty-sox.png";
 import Logo_fc from "../assets/teams/logo_fc.png";
@@ -87,6 +89,18 @@ export abstract class TeamRepository {
     {
       name: "Bears",
       logo: Logo_di,
+    },
+    {
+      name: "Falcons",
+      logo: Logo_fc,
+    },
+    {
+      name: "Bulls/Indians",
+      logo: Logo_hb_di,
+    },
+    {
+      name: "Indians/Vikings",
+      logo: Logo_di_kv,
     },
   ];
 

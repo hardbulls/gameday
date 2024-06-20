@@ -6,7 +6,7 @@ export async function drawOverviewGames(
   options: DrawOptions,
 ) {
   const gamesOffset = 580;
-  const gameFontSize = 48;
+  const gameFontSize = 40;
 
   for (const [index, game] of Object.entries(options.games)) {
     const row = Number.parseInt(index);
@@ -51,7 +51,7 @@ export async function drawOverviewGames(
       `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.`,
-      106 + offsetX,
+      98 + offsetX,
       gamesOffset + gameFontSize + offsetY + 5,
     );
 
@@ -68,14 +68,14 @@ export async function drawOverviewGames(
       ctx.font = `${gameFontSize}px DIN Condensed`;
       ctx.fillText(
         `|`,
-        122 + offsetX + 82,
+        114 + offsetX + 76,
         gamesOffset + gameFontSize + offsetY + 5,
       );
       ctx.font = `${gameFontSize}px DIN Condensed Bold`;
 
       ctx.fillText(
         `${game.times[1]}`,
-        120 + offsetX + 100,
+        114 + offsetX + 90,
         gamesOffset + gameFontSize + offsetY + 5,
       );
     }
@@ -87,6 +87,6 @@ export async function drawOverviewGames(
         ? ` (${game.league.toUpperCase()})`
         : ""
     }`;
-    ctx.fillText(teamsDisplay, 770, gamesOffset + gameFontSize + offsetY + 5);
+    ctx.fillText(teamsDisplay, 772, gamesOffset + gameFontSize + offsetY + 5);
   }
 }

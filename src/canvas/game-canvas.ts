@@ -11,7 +11,7 @@ export async function drawGame(
   options: DrawOptions,
 ) {
   const gamesOffset = 580;
-  const gameFontSize = 48;
+  const gameFontSize = 40;
 
   for (const [index, game] of Object.entries(options.games)) {
     const row = Number.parseInt(index);
@@ -64,14 +64,14 @@ export async function drawGame(
       ctx.font = `${gameFontSize}px DIN Condensed`;
       ctx.fillText(
         `|`,
-        122 + offsetX,
+        114 + offsetX,
         gamesOffset + gameFontSize + offsetY + 5,
       );
       ctx.font = `${gameFontSize}px DIN Condensed Bold`;
 
       ctx.fillText(
         `${game.times[1]}`,
-        122 + offsetX + 26,
+        114 + offsetX + 26,
         gamesOffset + gameFontSize + offsetY + 5,
       );
     }

@@ -27,7 +27,8 @@ export abstract class GamesRepository {
     u16: "U16",
     llv: "llv",
     bbl: "bbl",
-    "2-blw": "2-blw",
+    "2-blw": "2.blw",
+    "2-sbl": "2.sbl",
   };
 
   private static NAME_MAPPING: { [key: string]: string } = {
@@ -72,7 +73,9 @@ export abstract class GamesRepository {
     "Schwaz Tigers": "Tigers",
     "Feldkirch Angry Balls": "Angy Balls",
     "Centurions Wels": "Centurions",
-    "SG Indians - Vikings U16": "Ind./Vik.",
+    "SG Indians - Vikings U16": "Indians/Vikings",
+    "SG Indians - Bulls": "Bulls/Indians",
+    "Feldkirch Falcons": "Falcons",
   };
 
   public static async findWeeklyScheduledHomeGames(): Promise<Game[]> {
