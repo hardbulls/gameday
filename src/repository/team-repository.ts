@@ -14,6 +14,7 @@ import Logo_kv from "../assets/teams/logo_kv.png";
 import Logo_st from "../assets/teams/logo_st.png";
 import Logo_vm from "../assets/teams/logo_vm.png";
 import Logo_vw from "../assets/teams/logo_vw.png";
+import { TeamNotFoundError } from "../error/TeamNotFoundError.ts";
 
 export type Team = {
   name: string;
@@ -99,17 +100,25 @@ export abstract class TeamRepository {
       logo: Logo_hb_di,
     },
     {
+      name: "Bullets",
+      logo: Logo_hb,
+    },
+    {
       name: "Indians/Vikings",
       logo: Logo_di_kv,
     },
   ];
 
   public static findTeam(name: string): Team {
-    return (
-      TeamRepository.TEAMS.find((v) => v.name === name) || {
-        name: name,
-        logo: "",
-      }
-    );
+    const team = TeamRepository.TEAMS.find((v) => v.name === name) || {
+      name: name,
+      logo: "",
+    };
+
+    if (!team) {
+      throw new TeamNotFoundError(name);
+    }
+
+    return team;
   }
 }
