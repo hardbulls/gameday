@@ -52,6 +52,10 @@ export abstract class TeamRepository {
       logo: Logo_hb,
     },
     {
+      name: "Bulls FT",
+      logo: Logo_hb,
+    },
+    {
       name: "Indians",
       logo: Logo_di,
     },
