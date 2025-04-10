@@ -86,7 +86,7 @@ type State = {
 
   async function render() {
     await renderCanvas(outputImage, canvas, {
-      hiddenLeagues: ["llv", "bbl", "2-blw"],
+      hiddenLeagues: ["llv", "bbl", "2-blw", "vsl"],
       title: state.title || "",
       background:
         state.background &&

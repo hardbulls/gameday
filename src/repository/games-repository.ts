@@ -15,7 +15,11 @@ type ApiGame = {
 
 export abstract class GamesRepository {
   private static API_URL = "https://api.hardbulls.com/api/weekly-games.json";
-  private static VENUE_KEYWORDS = ["Ballpark am See", "Hard"];
+  private static VENUE_KEYWORDS = [
+    "Ballpark am See",
+    "Hard",
+    "Ballpark am See, Hard",
+  ];
 
   private static LEAGUE_MAPPING: { [key: string]: string | undefined } = {
     u8: "U8",
@@ -26,6 +30,7 @@ export abstract class GamesRepository {
     u15: "U15",
     u16: "U16",
     llv: "llv",
+    csl: "vsl",
     bbl: "bbl",
     "2-blw": "2.blw",
     "2-sbl": "2.sbl",
@@ -34,9 +39,9 @@ export abstract class GamesRepository {
   private static NAME_MAPPING: { [key: string]: string } = {
     "Hard Bulls": "Bulls",
     "Hard Bulls Bandidos": "Bandidos",
-    "Hard Bulls Bullets": "Bullets",
     "Hard Bulls Future Team": "Bulls FT",
     "Hard Bullets": "Bullets",
+    "Hard Bulls Bullets": "Bullets",
     "Hard Barons": "Barons",
     "Hard Bulls Barons": "Barons",
     "Hard Bulls U8": "Bulls",
@@ -73,10 +78,12 @@ export abstract class GamesRepository {
     "Dirty Sox Graz": "Dirty Sox",
     "Kufstein Vikings": "Vikings",
     "Kufstein Vikings U14": "Vikings",
+    "Kufstein Vikings U16": "Vikings",
     "Schwaz Tigers": "Tigers",
     "Feldkirch Angry Balls": "Angy Balls",
     "Centurions Wels": "Centurions",
     "SG Indians - Vikings U16": "Indians/Vikings",
+    "SG Indians - Cardinals U16": "Indians/Cardinals",
     "SG Indians - Bulls": "Bulls/Indians",
     "Feldkirch Falcons": "Falcons",
   };

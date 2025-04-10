@@ -20,8 +20,8 @@ export async function drawBase(
 
     ctx.globalCompositeOperation = "source-over";
 
-    await drawImage(ctx, HomePlateOvarlay, 0, 450, 900, 900);
-    await drawImage(ctx, BlackGradientOvarlay, 0, 450, 900, 900);
+    await drawImage(ctx, HomePlateOvarlay, 0, 400, 900, 900);
+    await drawImage(ctx, BlackGradientOvarlay, 0, 400, 900, 900);
 
     ctx.globalAlpha = 0.4;
     ctx.globalCompositeOperation = "overlay";
